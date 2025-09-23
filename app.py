@@ -1,3 +1,19 @@
+import sys, subprocess, importlib
+
+def _pip_install(args):
+    subprocess.check_call([sys.executable, "-m", "pip", "install", *args])
+
+# ติดตั้งถ้าไม่มี
+try:
+    import ultralytics  # noqa
+except ModuleNotFoundError:
+    _pip_install(["-U", "pip"])
+    _pip_install(["ultralytics"])
+    _pip_install(["torch", "torchvision", "--index-url", "https://download.pytorch.org/whl/cpu"])
+    _pip_install(["opencv-python-headless", "pillow", "numpy"])
+
+from ultralytics import YOLO
+
 
 import streamlit as st
 from ultralytics import YOLO
